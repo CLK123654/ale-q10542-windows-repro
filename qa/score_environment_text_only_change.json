@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "task_id": "10425",
+  "change_scope": "score_environment_text_only_change",
+  "result": "PASS",
+  "score": {
+    "total_declared": 100,
+    "item_count": 6,
+    "items": [
+      {
+        "name": "交付物与PostgreSQL执行边界",
+        "points": 10
+      },
+      {
+        "name": "生命周期补偿与幂等键",
+        "points": 18
+      },
+      {
+        "name": "预约函数与库存不足处理",
+        "points": 20
+      },
+      {
+        "name": "约束与串行化闸门",
+        "points": 15
+      },
+      {
+        "name": "双会话SERIALIZABLE争用",
+        "points": 25
+      },
+      {
+        "name": "源数据保护与跨报告对账",
+        "points": 12
+      }
+    ],
+    "points_sum": 100
+  },
+  "prompt_coverage_review": {
+    "completed": true,
+    "semantic_change_required": false,
+    "conclusion": "PostgreSQL边界、生命周期补偿、预约函数、约束闸门、双会话争用和跨报告对账均有对应评分项"
+  },
+  "environment_coverage": {
+    "operating_system": true,
+    "primary_software_and_version": true,
+    "code_execution_dependency": true,
+    "cpu": true,
+    "gpu": true,
+    "disk": true,
+    "timeout": true,
+    "license_removed": true
+  },
+  "environment_license_text_present": false,
+  "field_name_count": 17,
+  "ale_csv_column_count": 19,
+  "attachment_sha256_before": {
+    "输入数据包.zip": "d046f0734ab890ce9bee6bf9dc1a1b2f9e721cbfdd70a86998ea017ca105fe8a",
+    "reference.zip": "347f59155349ac0868d51039e5f658f7e8e7c409aec3e87fa4b37e09ba213b8b",
+    "关键标准答案.xlsx": "955339d5bd2a1986e64eaf57cf88d671fec372e9c799748b88f5a728b95b674e",
+    "任务规格转化.xlsx": "e9e54c5c02359981c78a1ac905e645aa0a478ce142d03f340c69eb92a7b3e4cf"
+  },
+  "attachment_sha256_after": {
+    "输入数据包.zip": "d046f0734ab890ce9bee6bf9dc1a1b2f9e721cbfdd70a86998ea017ca105fe8a",
+    "reference.zip": "347f59155349ac0868d51039e5f658f7e8e7c409aec3e87fa4b37e09ba213b8b",
+    "关键标准答案.xlsx": "955339d5bd2a1986e64eaf57cf88d671fec372e9c799748b88f5a728b95b674e",
+    "任务规格转化.xlsx": "e9e54c5c02359981c78a1ac905e645aa0a478ce142d03f340c69eb92a7b3e4cf"
+  },
+  "attachments_unchanged": true,
+  "windows_rerun_required": false,
+  "lark_called": false,
+  "online_ai_detection_used_as_conclusion": false
+}

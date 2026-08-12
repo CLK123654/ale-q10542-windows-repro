@@ -1,0 +1,15 @@
+读取database/schema.sql，确认业务主键、数值约束与时区字段
+
+载入checkout_experiment_snapshot.sql和analysis_policy.sql，关联实验分配、前置指标、曝光与订单
+
+按platform与market组合计算两组人数、绝对差和平衡状态
+
+用assignment关系和左闭右开UTC窗口筛选收入订单
+
+从完整分配人群计算统一前置均值和用户级CUPED收入
+
+按variant汇总原始收入、校正收入及人均结果
+
+分开统计四类数据质量问题并带出处置方式
+
+运行npm入口导出三份CSV，按业务键检查跨报告口径

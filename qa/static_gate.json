@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "result": "PASS",
+  "task_asset_id": "postgres_checkout_experiment_revenue_review",
+  "checked_source_count": 8,
+  "violations": [],
+  "score_item_count": 6,
+  "score_total": 100,
+  "task_field_count": 17,
+  "answer_sheet_count": 5,
+  "task_spec_row_count": 16,
+  "task_spec_column_count": 2
+}

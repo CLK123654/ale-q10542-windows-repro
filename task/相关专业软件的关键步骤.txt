@@ -1,0 +1,8 @@
+1. 打开database/schema.sql、checkout_experiment_snapshot.sql和analysis_policy.sql，确认四张源表及分析参数能够由psql读取。
+2. 用PostgreSQL Client连接指定实例，在独立schema中执行建表、口径和快照脚本，检查主键、CHECK约束与TIMESTAMPTZ字段。
+3. 在analyze_checkout_experiment.sql中建立分层平衡视图，使用FILTER统计两个variant并按阈值生成状态。
+4. 建立有效订单视图，通过assignments关联订单并应用左闭右开的UTC分析窗口。
+5. 建立用户级CUPED视图，从完整分配人群计算统一前置均值，保留没有有效订单的用户和未舍入校正值。
+6. 建立变体收入视图，按variant聚合人数、原始收入、校正收入及两类人均值。
+7. 建立数据质量视图，分别统计分配前曝光、其他实验曝光、窗口外订单和未分配结账活动，并关联处置方式。
+8. 在压缩包解压目录运行npm run process导出三份CSV，按platform、market、variant和flag_type检查稳定排序及跨表口径。

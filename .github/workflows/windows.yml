@@ -1,0 +1,53 @@
+name: windows-2025
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install and start PostgreSQL17
+        shell: pwsh
+        run: |
+          choco install postgresql17 -y --no-progress --params '/Password:postgres'
+          $pgBin = 'C:\Program Files\PostgreSQL\17\bin'
+          if (-not (Test-Path (Join-Path $pgBin psql.exe))) { throw 'psql.exe not found' }
+          $data = Join-Path $env:RUNNER_TEMP "q10542-pgdata-$env:GITHUB_RUN_ID"
+          & (Join-Path $pgBin initdb.exe) -D $data -U postgres --auth=trust --encoding=UTF8 --locale=C
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & (Join-Path $pgBin pg_ctl.exe) -D $data -o '-p 55542 -h 127.0.0.1' -w start
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "ALE_PG_URL=postgresql://postgres@127.0.0.1:55542/postgres" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "PSQL_PATH=$(Join-Path $pgBin psql.exe)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "PGDATA_Q10542=$data" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "PGBIN_Q10542=$pgBin" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Run Windows business checks
+        shell: pwsh
+        run: npm run verify
+      - name: Upload Windows evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: q10542-windows-evidence
+          path: verification/evidence/
+          if-no-files-found: error
+          retention-days: 1
+      - name: Stop PostgreSQL17
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path env:PGDATA_Q10542) { & (Join-Path $env:PGBIN_Q10542 pg_ctl.exe) -D $env:PGDATA_Q10542 -m fast -w stop }

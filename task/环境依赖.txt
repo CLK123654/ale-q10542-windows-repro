@@ -1,0 +1,10 @@
+操作系统： Windows11、macOS或主流64位Linux。
+
+主软件： PostgreSQL Client17或更高兼容版本，需要连接同版本范围的PostgreSQL服务端。
+代码执行依赖： Node.js20或更高兼容版本、npm和PowerShell或系统终端，用于装载SQL、调用PostgreSQL并导出CSV。
+CPU与内存： 适合当前实验快照、分层聚合和用户级CUPED计算规模的通用多核CPU与常规内存。
+GPU： 系统默认图形配置。
+磁盘： 容纳代码依赖、输入SQL、完成SQL和三份CSV。
+权限： 执行账号可连接指定PostgreSQL实例，并可在独立schema中创建表和视图。
+网络： 准备阶段访问官方软件源，处理阶段连接指定PostgreSQL实例。
+超时： 数据装载、视图计算和报告导出采用覆盖当前批次的有限超时。

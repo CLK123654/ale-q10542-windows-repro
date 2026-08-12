@@ -1,0 +1,35 @@
+{
+  "skill": "humanizer-zh",
+  "result": "PASS",
+  "minimum_total": 45,
+  "scores": {
+    "直接性": 10,
+    "节奏": 9,
+    "信任度": 9,
+    "真实性": 9,
+    "精炼度": 9,
+    "total": 46
+  },
+  "notes": [
+    "沿用结账实验的真实评审目标，角色、输入、计算和下游用途直接对应。",
+    "删除虚构数据、许可证、固定资源数字和易错点提示，环境只保留通用运行条件。",
+    "评分按六个实际业务主题分配100分，两个Gate覆盖可执行交付和核心CUPED收入。",
+    "任务规格只保留业务来源、目标、交付、PostgreSQL步骤与实现边界，没有表格字段拼贴。",
+    "人工复核未发现伪引用、无来源硬数字、规则未消费或推理断裂。"
+  ],
+  "reviewed_artifacts_sha256": {
+    "任务名称.txt": "d578da1391e7914f08e5f9b5562509c51d1578f34f14b24a17d8794e558661ef",
+    "任务概要.txt": "6d256e853f7a5239e5f465ceedb82eb1772a2ee3af7d381ab45184ad9d69f10c",
+    "任务prompt.txt": "59afd17298cbe0557407ddfc30a4f422ad55599242627eab925c4f7ad2b7c218",
+    "关键动作.txt": "6574d1c926d06f398c0eca6b6759c802938aa44e22ccd588d1020b2f639426c9",
+    "评分表.txt": "8dbb0f9c0d3a4cf93e541713fd6a733d5c857ac1e984b3a9038a9dc337677e26",
+    "环境依赖.txt": "5aec0f14d75b07f3d8d2c1581818d69fcb9c3defbe82f520d412a53132fbe631",
+    "相关专业软件的关键步骤.txt": "c5d7f93b9e1584bcb4bbed6ec04f8bfff01ce6ff114ef9d3042e6dc38b15bf28",
+    "task_fields.json": "712cf084ac2a8351d4a2d37d47b74c233642a1ded2da42d3a356736e70bfcf4a",
+    "ALE-专家数据作业表.csv": "c41fd90663143e6e92d88a63d4a8f923d67c69dfee150b2973b41ba106b344b8",
+    "输入数据包.zip": "aac193fdff610556de0229ebffb88d95b665d06fd766667eeac8f4b255f95885",
+    "reference.zip": "ee318308a658bb360ab112e4684239f71b125512db277bda0be588e4709ac01f",
+    "关键标准答案.xlsx": "72ad71528005974f6910e952feba181e4a8209ad227cefc428fafb53ea0c13ce",
+    "任务规格转化.xlsx": "aeb74885e2768450a9d00972947164b90466efea4a8793878938f880ecd2091e"
+  }
+}

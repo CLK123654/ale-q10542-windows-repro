@@ -1,0 +1,73 @@
+总分100分
+
+1. PostgreSQL交付与执行
+分值：15分
+优先级：Gate项
+所属层级：L2软件或工具操作层
+标准答案：完成SQL和三份业务报告位于题面声明的路径，SQL可在真实PostgreSQL中建立所需视图。
+关键字段：四个固定相对路径、视图名称、CSV表头、业务主键
+容差：SQL组织、公共表表达式和中间对象命名可以不同；交付路径与解析后的字段不可变。
+失败边界：核心SQL缺失、任一报告不可读、PostgreSQL未执行或主要输入未被消费。
+可观察证据：SQL文件、PostgreSQL执行结果、视图清单和三份CSV。
+客观硬性标准：四个交付路径全部存在，SQL执行成功，报告业务主键不重复。
+阈值：交付缺失数为0，SQL错误数为0，重复主键数为0。
+
+2. 分层随机平衡
+分值：15分
+优先级：高权重项
+所属层级：L6领域计算与专业规则层
+标准答案：每个platform与market组合恰有一行，control和treatment人数来自assignments，状态由analysis_policy中的阈值计算。
+关键字段：platform、market、control_users、treatment_users、total_users、abs_delta、status
+容差：按platform与market无序比较；人数、差值和状态精确比较。
+失败边界：只统计全局人数、遗漏分层字段、两组计数互换或状态未使用输入阈值。
+可观察证据：randomization_balance视图、randomization_balance.csv、assignments和analysis_policy。
+客观硬性标准：total_users等于两组人数之和，abs_delta等于两组人数差的绝对值，状态符合阈值分支。
+阈值：分层缺失数为0，人数或状态差异数为0。
+
+3. 有效订单窗口
+分值：15分
+优先级：高权重项
+所属层级：L5多源关联与字段一致性层
+标准答案：收入订单通过user_id关联assignments，paid_at大于等于analysis_start_utc且小于analysis_end_utc。
+关键字段：order_id、user_id、paid_at、revenue、analysis_start_utc、analysis_end_utc
+容差：订单按order_id无序比较；时间按同一UTC瞬时值比较，金额精确到输入值。
+失败边界：窗口末端或窗口外订单进入收入，未分配订单进入收入，或以曝光替代assignment关联。
+可观察证据：analysis_orders视图、orders、assignments和analysis_policy。
+客观硬性标准：每条收入订单同时满足分配关联与左闭右开窗口，排除项不贡献两组收入。
+阈值：越界订单数为0，未分配订单数为0。
+
+4. CUPED用户级计算与变体汇总
+分值：25分
+优先级：Gate项
+所属层级：L6领域计算与专业规则层
+标准答案：pre_mean_revenue取全部已分配且有前置指标用户的全局均值；用户级校正使用analysis_policy中的cuped_theta；没有有效订单的用户仍计入分母。
+关键字段：user_id、variant、pre_revenue、pre_mean_revenue、cuped_theta、raw_revenue、adjusted_revenue、users、avg_raw_revenue、cuped_revenue、avg_cuped_revenue
+容差：按用户和variant业务键比较；最终报告金额允许绝对误差0.0001，用户级计算不得提前舍入。
+失败边界：按variant计算不同前置均值、遗漏零订单用户、系数未取自输入或先舍入再聚合。
+可观察证据：cuped_user_metric视图、cuped_revenue_by_variant视图与CSV、pre_period_metrics和analysis_policy。
+客观硬性标准：每个已分配且有前置指标的用户恰有一条记录，两组人数覆盖完整人群，汇总值可由用户级结果复算。
+阈值：用户缺失数为0，人数差异数为0，金额误差不超过0.0001。
+
+5. 数据质量标记
+分值：15分
+优先级：高权重项
+所属层级：L4数据清洗与质量控制层
+标准答案：分别统计pre_assignment_exposure、cross_experiment_exposure、metric_outside_window和unassigned_checkout_activity，handling来自quality_handling。
+关键字段：flag_type、affected_rows、affected_users、handling
+容差：按flag_type无序比较；计数精确比较，handling逐字采用输入口径。
+失败边界：缺少公开类别、混淆其他实验曝光、遗漏未分配活动，或把质量记录并入收入。
+可观察证据：data_quality_flags视图与CSV、exposure_events、orders、assignments、analysis_policy和quality_handling。
+客观硬性标准：四类问题均可从源表独立复算，质量报告与收入汇总互不混用。
+阈值：类别缺失数为0，计数或处置差异数为0。
+
+6. 跨报告一致性
+分值：15分
+优先级：普通项
+所属层级：L9跨产物一致性与可追溯层
+标准答案：分层人数合计与CUPED用户数一致；收入与质量标记使用同一实验标识和分析窗口；三份报告按题面业务键稳定排序。
+关键字段：platform、market、variant、users、flag_type、experiment_id、analysis_start_utc、analysis_end_utc
+容差：集合与映射按业务键比较；CSV必要引号与LF或CRLF行尾不参与判定。
+失败边界：报告使用不同人群、不同窗口或不同实验标识，或聚合无法从源表和中间视图复算。
+可观察证据：三份CSV、SQL视图定义、数据库快照和口径SQL。
+客观硬性标准：分层总人数等于两组users之和，所有报告的来源和口径可定位。
+阈值：跨报告等式差异数为0，重复业务主键数为0。
